@@ -12,7 +12,7 @@ RSpec.describe "StaticPages", type: :request do
     end
     it "title tag is valid" do
       get home_url
-      expect(response.body).to include "Home | Ruby on Rails Tutorial Sample App"
+      expect(response.body).to include "Ruby on Rails Tutorial Sample App"
     end
   end
   
