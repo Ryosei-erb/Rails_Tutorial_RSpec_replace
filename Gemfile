@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails',        '5.1.6'
+gem 'bootstrap-sass', '3.3.7'
 gem 'puma',         '3.9.1'
 gem 'sass-rails',   '5.0.6'
 gem 'uglifier',     '3.2.0'
@@ -30,6 +31,9 @@ group :test do
   gem 'guard',                    '2.13.0'
   gem 'guard-minitest',           '2.4.4'
   gem "rspec-rails", "~> 3.7"
+  gem "capybara", "~> 2.15.2"
+  gem 'selenium-webdriver'
+  gem 'webdrivers'
 end
 
 group :production do
