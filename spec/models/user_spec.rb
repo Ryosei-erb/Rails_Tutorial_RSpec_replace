@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before do
-    @user = User.new(name: "Example_user",email: "user@example.com",
-                      password: "foobar", password_confirmation: "foobar")
+    @user = FactoryBot.build(:user)
   end
+  
     
   it "is valid with a name and email"  do
     expect(@user).to be_valid
@@ -49,7 +49,7 @@ RSpec.describe User, type: :model do
     invalid_addresses.each do |invalid_address|
       @user.email = invalid_address
       @user.valid?
-      expect(@user).to be_invalid  #include("#{invalid_address.inspect} should be invalid")
+      expect(@user).to be_invalid 
     end
   end
   
@@ -57,14 +57,16 @@ RSpec.describe User, type: :model do
     @user.password = @user.password_confirmation = "" * 6
     expect(@user).to_not be_valid
   end
+  
   it "is invalid without minimum length password" do
     @user.password = @user.password_confirmation = "a" * 5
     expect(@user).to_not be_valid
   end
   
-  # it "is unique email address" do
-  #   other_user = User.new(name: "Other", email: "user@example.com")
-  #   other_user.valid?
-  #   expect(other_user.errors[:email]).to_not be_valid
-  # end
+  it "is unique email address" do
+    duplicate_user = @user.dup
+    duplicate_user.email = @user.email.upcase
+    @user.save
+    expect(duplicate_user).to be_invalid
+  end
 end

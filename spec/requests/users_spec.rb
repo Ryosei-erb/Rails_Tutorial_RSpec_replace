@@ -4,7 +4,7 @@ RSpec.describe "Users", type: :request do
   describe "GET /users/new" do
     it "response successfully" do
       get signup_url
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     it "return a 200 response" do
       get signup_url

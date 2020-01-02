@@ -4,7 +4,7 @@ RSpec.describe "StaticPages", type: :request do
   describe "GET #home" do
     it "response successfully" do
       get home_url
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     it "return a 200 response" do
       get home_url
@@ -19,7 +19,7 @@ RSpec.describe "StaticPages", type: :request do
   describe "GET #help" do
     it "response successfully" do
       get help_url
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     it "return a 200 response" do
       get help_url
@@ -34,7 +34,7 @@ RSpec.describe "StaticPages", type: :request do
   describe "GET #about" do
     it "response successfully" do
       get about_url
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     
     it "return a 200 response" do
@@ -50,7 +50,7 @@ RSpec.describe "StaticPages", type: :request do
   describe "GET #contact" do
      it "response successfully" do
       get contact_url
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     it "return a 200 response" do
       get contact_url
