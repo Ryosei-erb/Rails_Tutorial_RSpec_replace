@@ -8,6 +8,7 @@ RSpec.describe "Sessions", type: :request do
       @user = FactoryBot.create(:user)
     end
     describe "ログイン機能" do
+      
       context "ログインが成功する場合" do
         it "ログインに成功" do
           get login_path
@@ -17,7 +18,6 @@ RSpec.describe "Sessions", type: :request do
             }
           }
           expect(is_logged_in?).to be_truthy
-         
         end
         it "エラーメッセージは表示されない" do
           get login_path
@@ -28,6 +28,24 @@ RSpec.describe "Sessions", type: :request do
           }
           expect(flash[:danger]).to be_falsey
         end
+        it "cookieを保持してログインする" do # remember_tokenが保存できているかのspec
+          log_in_as(@user, remember_me: "1")
+          expect(cookies["remember_token"]).to be_truthy
+        end
+        it "cookieを保持せずにログインする" do
+          log_in_as(@user)
+          delete logout_path
+          log_in_as(@user, remember_me: "0")
+          expect(cookies["remember_token"]).to be_empty
+        end
+        
+        # it "sessionが切れたとき、current_userがcookieを返す" do
+        #   remember_me(@user)
+        #   expect(current_user_cookie).to eq @user
+        #   expect(is_logged_in?).to be_truthy
+        # end
+        
+      
       end
       context "ログインが失敗する場合" do
         it "ログインに失敗" do
