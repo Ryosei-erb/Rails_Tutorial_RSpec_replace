@@ -4,20 +4,16 @@ FactoryBot.define do
     email {"exapmle@example.com"}
     password { "paassword" }
     
+    # 99.times do |n|
+    #   name {  "Rysoei Yoshikawa" }
+    #   email { "exapmle#{n}@example.com" }
+    #   password { "password" }
+    # end
+    
+    
     trait :invalid do
       name nil
     end
   end
   
-  factory :abc ,class: User do
-    name {"abc"}
-    email { "abc@example.com" }
-    password { "password" }
-  end
-  
-  factory :def ,class: User do
-    name { "def" }
-    email { "def@example.com" }
-    password { "password" }
-  end
 end
