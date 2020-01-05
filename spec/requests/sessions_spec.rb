@@ -18,6 +18,9 @@ RSpec.describe "Sessions", type: :request do
             }
           }
           expect(is_logged_in?).to be_truthy
+          expect(response).to redirect_to @user
+          follow_redirect!
+          expect(response).to render_template("users/show")
         end
         it "エラーメッセージは表示されない" do
           get login_path

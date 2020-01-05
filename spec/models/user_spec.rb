@@ -69,4 +69,12 @@ RSpec.describe User, type: :model do
     @user.save
     expect(duplicate_user).to be_invalid
   end
+  it "ユーザーを削除すると、マイクロポストも削除される" do
+    @user.save
+    @user.microposts.create!(content: "Long")
+    expect {
+      @user.destroy
+    }.to change{ Micropost.count }.by(-1)
+  end
+  
 end
