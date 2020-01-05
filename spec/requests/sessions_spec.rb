@@ -41,13 +41,6 @@ RSpec.describe "Sessions", type: :request do
           log_in_as(@user, remember_me: "0")
           expect(cookies["remember_token"]).to be_empty
         end
-        
-        # it "sessionが切れたとき、current_userがcookieを返す" do
-        #   remember_me(@user)
-        #   expect(current_user_cookie).to eq @user
-        #   expect(is_logged_in?).to be_truthy
-        # end
-        
       
       end
       context "ログインが失敗する場合" do

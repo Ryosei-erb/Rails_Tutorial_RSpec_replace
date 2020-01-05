@@ -4,45 +4,14 @@ RSpec.describe "Users", type: :system do
   
     before do
       driven_by(:rack_test)
-      @user = FactoryBot.build(:user)
-    end
-    describe "ユーザー登録機能" do
-      context "ユーザー登録が成功するとき" do
-       
-        it "ユーザーが登録される" do
-          
-          expect {
-            visit root_url
-            click_link "Sign up now!"
-            fill_in "Name", with: @user.name
-            fill_in "Email", with: @user.email
-            fill_in "Password", with: @user.password
-            fill_in "Confirmation",with: @user.password
-            click_button "Create my account"
-          }.to change{ User.count}.by(1)
-          
-        end
-      end
-      context "ユーザー登録が失敗するとき" do
-        it "ユーザーが登録されない" do
-          expect {
-            visit root_url
-            click_link "Sign up now!"
-            fill_in "Name", with: " "
-            fill_in "Email", with: " "
-            fill_in "Password", with: " "
-            fill_in "Confirmation",with: " "
-            click_button "Create my account"
-            expect(page).to have_content "can't be blank"
-          }.to_not change{ User.count}
-        end
-      end
+      @user = FactoryBot.create(:user, name: "usa", email: "usa@exam.com")
+      @other_user = FactoryBot.create(:user, name: "uk", email: "the_uk@exam.com")
     end
     
     describe "ログイン・ログアウト機能" do
       before do
           @user = FactoryBot.create(:user, email: "a@example.com",password: "password")
-        end
+      end
       context "ログインが成功するとき" do
         
         it "ログインする" do
@@ -85,7 +54,7 @@ RSpec.describe "Users", type: :system do
       before do
           @user = FactoryBot.create(:user, email: "a@example.com",password: "password", admin: true)
           @other_user = FactoryBot.create(:user, email: "b@example.com", password: "password")
-        end
+      end
       context "管理者である場合" do
         it "deleteが表示される" do
           visit login_path
@@ -130,6 +99,35 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_selector "h1", text: @user.name
         expect(page).to have_selector "h3", text: @user.microposts.count
         expect(page).to have_selector "ol", text: @micropost.content
+      end
+    end
+    
+    describe "following,followed機能" do
+      it "followingページを遷移する" do
+        visit login_path
+        fill_in "Email", with: @user.email
+        fill_in "Password", with: @user.password
+        click_button "Log in"
+        visit user_path(@other_user)
+        @user.follow(@other_user)
+        visit following_user_path(@user)
+        expect(@user.following?(@other_user)).to be_truthy
+        @user.following.each do |user|
+          expect(page).to have_content user.name
+        end
+      end
+      it "followersページを遷移する" do
+        visit login_path
+        fill_in "Email", with: @other_user.email
+        fill_in "Password", with: @other_user.password
+        click_button "Log in"
+        visit user_path(@user)
+        @other_user.follow(@user)
+        visit followers_user_path(@user)
+        expect(@other_user.following?(@user)).to be_truthy
+        @user.followers.each do |user|
+          expect(page).to have_content user.name
+        end
       end
     end
     

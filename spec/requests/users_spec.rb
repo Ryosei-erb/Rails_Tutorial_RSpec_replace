@@ -63,7 +63,7 @@ RSpec.describe "Users", type: :request do
         post users_url , params: { user: user_params }
         expect(response).to have_http_status "302"
       end
-      it "ユーザーが登録される" do
+      it "ユーザーが登録される(そしてログイン）" do
         user_params = FactoryBot.attributes_for(:user)
         expect{
           post users_url, params: { user: user_params } 
@@ -192,10 +192,10 @@ RSpec.describe "Users", type: :request do
         expect {
           delete user_path(@other_user)
         }.to change{ User.count }.by(-1)
-        
       end
     end
     
   end
+  
 
 end
